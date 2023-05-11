@@ -6,7 +6,7 @@ const PrivateRoute = ({children,...routeProps}) => {
 
 
 
-    const profile = false;
+    const profile = true;
 
     if(!profile){
         return <Redirect to="/sign" />
