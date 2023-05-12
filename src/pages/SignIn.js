@@ -35,7 +35,6 @@ const SignIn = () => {
         signInWithProvider( new firebase.auth.GoogleAuthProvider())
     };
 
-
   return (
     <div>
 
