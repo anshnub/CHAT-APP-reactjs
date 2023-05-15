@@ -1,9 +1,10 @@
 import React from 'react'
 import TimeAgo from 'timeago-react'
+import ProfileAvatar from '../dashboard/ProfileAvatar';
 
 const RoomItem = ({room}) => {
 
-    const {createdAt , name} = room;
+    const {createdAt , name, lastMessage} = room;
   return (
     <div>
 
@@ -11,7 +12,8 @@ const RoomItem = ({room}) => {
     <h3 className='text-disappear' >{name}</h3>
 
     <TimeAgo
-        datetime={new Date(createdAt)} className="font-normal text-back-45"
+        datetime={ lastMessage ? new Date(lastMessage.createdAt) : new Date(createdAt)} 
+        className="font-normal text-back-45"
     />
 
     </div>
@@ -19,7 +21,29 @@ const RoomItem = ({room}) => {
 
 
     <div className='d-flex align-items-center text-black-70' >
+     {
+        lastMessage ?
+        <>
+        <div className='d-flex align-items-center' >
+        <ProfileAvatar
+          src={lastMessage.author.avatar}
+          name={lastMessage.author.name}
+          size="sm"
+          
+           />
+
+        </div>
+
+        <div className='text-disappear ml-2' >
+            <div className='italic' > {lastMessage.author.name} </div>
+            <span> {lastMessage.text} </span>
+        </div>
+
+        </>:
         <span>no messages yet ...</span>
+     }
+
+        
     </div>
 
 
