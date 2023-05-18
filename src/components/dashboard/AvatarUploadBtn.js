@@ -6,6 +6,7 @@ import AvatarEditor from 'react-avatar-editor';
 import { database, storage } from '../../misc/firebase';
 import { useProfile } from '../../context/profile.context';
 import ProfileAvatar from './ProfileAvatar';
+import { getUserUpdates } from '../../misc/helpers';
 
 const fileInputTypes= ".png, .jpg , .jpeg";
 
@@ -69,8 +70,15 @@ const AvatarUploadBtn = () => {
        })
        const downloadUrl = await uploadAvatarResult.red.getDownloadURL()
 
-       const userAvatarRef = database.ref(`/profiles/${profile.uid}`).child('avatar')
-       userAvatarRef.set(downloadUrl);
+       const updates = await getUserUpdates(
+        profile.uid,
+        'avatar',
+        downloadUrl,
+        database
+       )
+
+       await database.ref().update(updates);
+
 
        setIsLoading(false)
 
@@ -119,8 +127,6 @@ const AvatarUploadBtn = () => {
            rotate={0}
            
             />
-           
-           
            )}
         </Modal.Body>
         <Modal.Footer>
@@ -128,10 +134,6 @@ const AvatarUploadBtn = () => {
                 Upload new avatar
             </Button>
         </Modal.Footer>
-
-
-
-
 
         </Modal>
     </div> 
